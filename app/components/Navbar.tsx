@@ -11,7 +11,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -22,7 +21,6 @@ export default function Navbar() {
     setMounted(true);
   }, []);
 
-  // Handle body overflow when menu is open
   useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -39,6 +37,7 @@ export default function Navbar() {
     { href: "#about", label: "About" },
     { href: "#skills", label: "Skills" },
     { href: "#projects", label: "Projects" },
+    { href: "mailto:Momenalhamza@gmail.com", label: "Contact" },
   ];
 
   if (!mounted) return null;
@@ -57,21 +56,18 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
-            {/* Logo */}
             <Link href="/" className="relative group">
               <motion.span
                 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-500"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
-                AM
+                MH
               </motion.span>
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-500/50 group-hover:w-full transition-all duration-300" />
             </Link>
 
-            {/* Controls */}
             <div className="flex items-center gap-4">
-              {/* Theme Toggle */}
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
@@ -105,7 +101,6 @@ export default function Navbar() {
                 )}
               </motion.button>
 
-              {/* Menu Button */}
               <motion.button
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -134,11 +129,9 @@ export default function Navbar() {
         </div>
       </motion.nav>
 
-      {/*Menu Overlay*/}
       <AnimatePresence>
         {isMenuOpen && (
           <>
-            {/* Backdrop Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -146,7 +139,7 @@ export default function Navbar() {
               transition={{ duration: 0.2 }}
               className="fixed inset-0 bg-black/60 backdrop-blur-md"
               style={{
-                zIndex: 49, // Just below navbar
+                zIndex: 49,
                 top: 0,
                 left: 0,
                 right: 0,
@@ -155,7 +148,6 @@ export default function Navbar() {
               onClick={() => setIsMenuOpen(false)}
             />
 
-            {/* Menu Content */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -163,12 +155,11 @@ export default function Navbar() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed right-0 top-0 h-screen w-full sm:w-80 bg-white dark:bg-black shadow-2xl border-l border-gray-400/5"
               style={{
-                zIndex: 51, // Above navbar
+                zIndex: 51,
               }}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="min-h-screen flex flex-col">
-                {/* Menu Header */}
                 <div className="p-6 border-b border-purple-500/10 dark:border-purple-500/5">
                   <div className="flex items-center justify-between">
                     <h2 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-purple-500">
@@ -197,7 +188,6 @@ export default function Navbar() {
                   </div>
                 </div>
 
-                {/* Menu Links */}
                 <nav className="flex-1 overflow-y-hidden py-6 px-4 no-scrollbar">
                   <div className="grid gap-2 overflow-y-hidden no-scrollbar">
                     {navLinks.map((link, index) => (
@@ -213,15 +203,10 @@ export default function Navbar() {
                           className="group relative flex items-center p-4 text-gray-800 dark:text-gray-200 rounded-xl transition-all duration-300 hover:bg-purple-500/5 dark:hover:bg-purple-900/10 no-scrollbar"
                           onClick={() => setIsMenuOpen(false)}
                         >
-                          {/* Animated Dot Indicator */}
                           <span className="absolute left-0 w-1 h-8 rounded-r-full bg-purple-500 scale-y-0 group-hover:scale-y-100 transition-transform origin-left" />
 
-                          {/* Link Content */}
                           <div className="flex items-center gap-4 ml-2">
-                            {/* you can add icons guys if you want ......for each link here */}
                             <span className="w-2 h-2 rounded-full bg-purple-500/50 group-hover:scale-150 transition-transform" />
-
-                            {/* Label with hover effect */}
                             <span className="text-lg font-medium group-hover:translate-x-1 transition-transform no-scrollbar">
                               {link.label}
                             </span>
@@ -232,11 +217,10 @@ export default function Navbar() {
                   </div>
                 </nav>
 
-                {/* Menu Footer */}
                 <div className="p-6 border-t border-purple-500/10 dark:border-purple-500/5">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-500 dark:text-gray-400">
-                      © 2024 Arthur Morgan
+                      © 2026 Momen Hamza
                     </span>
                     <motion.button
                       whileHover={{ scale: 1.1 }}

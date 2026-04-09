@@ -5,49 +5,46 @@ import { motion } from "framer-motion";
 export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center py-20">
-      {/* Background Effects */}
       <div className="absolute top-1/3 left-1/4 w-10 h-10 md:w-96 md:h-96 bg-purple-600/5 dark:bg-purple-600/10 rounded-full filter blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-10 h-10 md:w-80 md:h-80 bg-indigo-600/5 dark:bg-indigo-600/10 rounded-full filter blur-3xl animate-pulse delay-700" />
 
-      {/* Main Content */}
       <div className="container max-w-7xl mx-auto px-8 lg:px-12 relative z-10">
         <div className="flex flex-col items-center lg:items-start">
-          {/* Content Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="max-w-3xl text-center lg:text-left"
           >
-            {/* Pre-title */}
             <motion.span
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
               className="inline-block px-4 py-1.5 bg-purple-500/5 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full text-sm font-medium mb-6"
             >
-              Full Stack Developer
+              Artificial Intelligence & Data Science Graduate
             </motion.span>
 
             <div className="space-y-4">
               <h1 className="text-5xl lg:text-7xl font-bold text-gray-800 dark:text-white leading-tight">
                 Hi, I&apos;m{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">
-                  Arthur Morgan
+                  Momen Hamza
                 </span>
               </h1>
             </div>
 
-            {/* Description */}
             <p className="text-gray-600 dark:text-gray-300 text-lg lg:text-xl mt-8 mb-10 leading-relaxed max-w-2xl">
-              A passionate Full Stack Developer specializing in building
-              exceptional digital experiences that drive business growth and
-              user engagement.
+              A recent graduate in Artificial Intelligence and Data Science with
+              a strong foundation in machine learning, deep learning, computer
+              vision, and data analysis. I build intelligent systems using
+              Python, TensorFlow, Scikit-learn, and YOLOv8 to solve real-world
+              problems.
             </p>
 
-            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
-              <motion.button
+              <motion.a
+                href="#projects"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl overflow-hidden shadow-xl transition-all duration-300 hover:shadow-purple-500/25"
@@ -69,9 +66,10 @@ export default function Hero() {
                     />
                   </svg>
                 </span>
-              </motion.button>
+              </motion.a>
 
-              <motion.button
+              <motion.a
+                href="mailto:Momenalhamza@gmail.com"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="group px-8 py-4 bg-transparent border border-purple-500/20 dark:border-purple-500/30 hover:border-purple-500 text-purple-600 dark:text-purple-400 rounded-xl transition-all duration-300 hover:bg-purple-500/5 dark:hover:bg-purple-500/10"
@@ -92,10 +90,9 @@ export default function Hero() {
                     />
                   </svg>
                 </span>
-              </motion.button>
+              </motion.a>
             </div>
 
-            {/* Social Proof */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -112,9 +109,9 @@ export default function Hero() {
               </div>
               <div className="text-gray-500 dark:text-gray-400">
                 <span className="text-purple-600 dark:text-purple-400 font-semibold">
-                  50+
+                  AI
                 </span>{" "}
-                Projects Completed
+                Projects in Machine Learning, Deep Learning, and Computer Vision
               </div>
             </motion.div>
           </motion.div>
