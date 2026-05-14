@@ -21,7 +21,7 @@ const projects = [
       "Developed a multilingual chatbot supporting Arabic, English, French, and code-switching. The system automatically detects language, classifies 6 intents (booking, complaint, farewell, greeting, inquiry, other), extracts named entities (names, places, dates), and retrieves relevant answers to reply naturally. Built with a Gradio interface.",
     image: "/Images/project-chatbot.png",
     tags: ["Python", "NLP", "Intent Classification", "NER", "Gradio"],
-    demoUrl: "#",
+    demoUrl: "https://huggingface.co/spaces/momenalhamza/multilingual-chatbot",
     githubUrl:
       "https://github.com/momenalhamza/multilingual-intent-ner-chatbot",
   },
