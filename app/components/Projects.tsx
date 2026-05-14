@@ -5,6 +5,27 @@ import Image from "next/image";
 
 const projects = [
   {
+    title: "Voice & Facial Emotion Recognition System",
+    description:
+      "Built a multimodal emotion recognition system that fuses facial expression analysis (ViT) and voice emotion analysis (Wav2Vec2) to detect emotions such as happy, sad, angry, fearful, and neutral. Trained on RAVDESS, CREMA-D, FER2013, and TESS datasets using MFCC and prosody features, with a live demo for real-time inference.",
+    image: "/Images/project-emotion.png",
+    tags: ["Python", "ViT", "Wav2Vec2", "Deep Learning", "Multimodal"],
+    demoUrl:
+      "https://huggingface.co/spaces/momenalhamza/emotion-recognition-multimodal",
+    githubUrl:
+      "https://github.com/momenalhamza/Voice-and-facial-emotion-detection-system",
+  },
+  {
+    title: "Multilingual Intent & NER Chatbot",
+    description:
+      "Developed a multilingual chatbot supporting Arabic, English, French, and code-switching. The system automatically detects language, classifies 6 intents (booking, complaint, farewell, greeting, inquiry, other), extracts named entities (names, places, dates), and retrieves relevant answers to reply naturally. Built with a Gradio interface.",
+    image: "/Images/project-chatbot.png",
+    tags: ["Python", "NLP", "Intent Classification", "NER", "Gradio"],
+    demoUrl: "#",
+    githubUrl:
+      "https://github.com/momenalhamza/multilingual-intent-ner-chatbot",
+  },
+  {
     title: "Smart Detection Prototype for the Visually Impaired",
     description:
       "Developed a real-time assistive system for visually impaired users using YOLOv8 and deep learning. The system detects traffic signs, obstacles, pedestrians, and stairs, then provides Arabic voice instructions for object type, direction, and distance. Built with Python and Streamlit using a custom dataset with annotation, balancing, and augmentation.",
