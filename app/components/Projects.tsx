@@ -37,11 +37,11 @@ const projects = [
   {
     title: "Brain Tumor Classification",
     description:
-      "Built a deep learning model using CNNs to detect and classify brain tumors from MRI images.",
-    image: "/Images/project2.jpg",
-    tags: ["Python", "CNN", "Deep Learning", "Computer Vision"],
-    demoUrl: "#",
-    githubUrl: "#",
+      "Built a deep learning model using CNNs to detect and classify brain tumors (Glioma, Meningioma, Pituitary, and No Tumor) from MRI images. Trained on a labeled dataset of 5.6k training and 1.6k test scans, with a live demo deployed on Hugging Face Spaces for real-time inference.",
+    image: "/Images/project-brain-tumor.png",
+    tags: ["Python", "CNN", "Deep Learning", "Computer Vision", "MRI"],
+    demoUrl: "https://momenalhamza-brain-tumor-classification.hf.space",
+    githubUrl: "https://github.com/momenalhamza/Brain-Tumor-Classification",
   },
   {
     title: "Heart Disease Prediction",
