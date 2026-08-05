@@ -1,189 +1,98 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
-
-const projects = [
-  {
-    title: "Voice & Facial Emotion Recognition System",
-    description:
-      "Built a multimodal emotion recognition system that fuses facial expression analysis (ViT) and voice emotion analysis (Wav2Vec2) to detect emotions such as happy, sad, angry, fearful, and neutral. Trained on RAVDESS, CREMA-D, FER2013, and TESS datasets using MFCC and prosody features, with a live demo for real-time inference.",
-    image: "/Images/project-emotion.png",
-    tags: ["Python", "ViT", "Wav2Vec2", "Deep Learning", "Multimodal"],
-    demoUrl:
-      "https://huggingface.co/spaces/momenalhamza/emotion-recognition-multimodal",
-    githubUrl:
-      "https://github.com/momenalhamza/Voice-and-facial-emotion-detection-system",
-  },
-  {
-    title: "Multilingual Intent & NER Chatbot",
-    description:
-      "Developed a multilingual chatbot supporting Arabic, English, French, and code-switching. The system automatically detects language, classifies 6 intents (booking, complaint, farewell, greeting, inquiry, other), extracts named entities (names, places, dates), and retrieves relevant answers to reply naturally. Built with a Gradio interface.",
-    image: "/Images/project-chatbot.png",
-    tags: ["Python", "NLP", "Intent Classification", "NER", "Gradio"],
-    demoUrl: "https://huggingface.co/spaces/momenalhamza/multilingual-chatbot",
-    githubUrl:
-      "https://github.com/momenalhamza/multilingual-intent-ner-chatbot",
-  },
-  {
-    title: "Smart Detection Prototype for the Visually Impaired",
-    description:
-      "Developed a real-time assistive system for visually impaired users using YOLOv8 and deep learning. The system detects traffic signs, obstacles, pedestrians, and stairs, then provides Arabic voice instructions for object type, direction, and distance. Built with Python and Streamlit using a custom dataset with annotation, balancing, and augmentation.",
-    image: "/Images/project1.jpg",
-    tags: ["Python", "YOLOv8", "Deep Learning", "Streamlit"],
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    title: "Brain Tumor Classification",
-    description:
-      "Built a deep learning model using CNNs to detect and classify brain tumors (Glioma, Meningioma, Pituitary, and No Tumor) from MRI images. Trained on a labeled dataset of 5.6k training and 1.6k test scans, with a live demo deployed on Hugging Face Spaces for real-time inference.",
-    image: "/Images/project-brain-tumor.png",
-    tags: ["Python", "CNN", "Deep Learning", "Computer Vision", "MRI"],
-    demoUrl: "https://momenalhamza-brain-tumor-classification.hf.space",
-    githubUrl: "https://github.com/momenalhamza/Brain-Tumor-Classification",
-  },
-  {
-    title: "Heart Disease Prediction",
-    description:
-      "Developed a machine learning model to classify patients based on health data and predict heart disease risk.",
-    image: "/Images/project3.jpg",
-    tags: ["Python", "Machine Learning", "Scikit-learn", "Data Analysis"],
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    title: "Customer Behavior Analysis",
-    description:
-      "Classified customers based on age, order history, and income to predict purchasing decisions.",
-    image: "/Images/project4.jpg",
-    tags: ["Python", "Machine Learning", "Classification", "Data Analysis"],
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-  {
-    title: "Laptop Characteristics and Price Analysis",
-    description:
-      "Analyzed and visualized laptop features and prices to help customers make informed buying decisions.",
-    image: "/Images/project5.jpg",
-    tags: ["Python", "Data Analysis", "Visualization", "Insights"],
-    demoUrl: "#",
-    githubUrl: "#",
-  },
-];
+import { useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import SectionHeading from "./ui/SectionHeading";
+import ProjectCard from "./ProjectCard";
+import { projectCategories, projects } from "../data/projects";
 
 export default function Projects() {
+  const [active, setActive] = useState<string>("All");
+
+  const visible = useMemo(
+    () =>
+      active === "All"
+        ? projects
+        : projects.filter((project) => project.category === active),
+    [active],
+  );
+
+  const counts = useMemo(() => {
+    const map: Record<string, number> = { All: projects.length };
+    projects.forEach((p) => {
+      map[p.category] = (map[p.category] ?? 0) + 1;
+    });
+    return map;
+  }, []);
+
   return (
-    <section id="projects" className="relative py-20 bg-white dark:bg-black">
-      <div className="absolute bottom-0 right-0 w-full h-96 bg-gradient-to-t from-purple-100/20 dark:from-purple-900/20 via-transparent to-transparent" />
+    <section id="projects" className="relative px-6 py-24 sm:px-8 lg:px-12">
+      <div className="container mx-auto max-w-7xl">
+        <SectionHeading
+          eyebrow="Selected work"
+          title="Every project here runs — most of them are live"
+          description="Eleven systems across agentic AI, computer vision, multilingual NLP, machine learning and analytics. Open a case study for the problem, the approach and the measured result."
+        />
 
-      <div className="container max-w-7xl mx-auto px-8 lg:px-12 relative z-10">
-        <div className="max-w-3xl mx-auto text-center mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl lg:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400"
-          >
-            Featured Projects
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 text-lg text-gray-600 dark:text-gray-300"
-          >
-            A selection of my academic and practical projects in artificial
-            intelligence, machine learning, and data analysis.
-          </motion.p>
+        {/* Filters */}
+        <div className="mb-12 flex flex-wrap justify-center gap-2">
+          {projectCategories.map((category) => {
+            const isActive = active === category;
+            return (
+              <button
+                key={category}
+                onClick={() => setActive(category)}
+                aria-pressed={isActive}
+                className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                  isActive
+                    ? "text-white"
+                    : "muted hover:text-violet-600 dark:hover:text-violet-300"
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="filter-pill"
+                    transition={{ type: "spring", stiffness: 320, damping: 30 }}
+                    className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-violet-600 to-indigo-600 shadow-[0_8px_24px_-8px_rgb(124_58_237/0.7)]"
+                  />
+                )}
+                {!isActive && (
+                  <span className="absolute inset-0 -z-10 rounded-full border border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface-raised))]/60" />
+                )}
+                {category}
+                <span
+                  className={`ml-1.5 font-mono text-[11px] ${
+                    isActive ? "text-white/70" : "opacity-60"
+                  }`}
+                >
+                  {counts[category] ?? 0}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
-          {projects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.2 }}
-              className="group relative bg-white dark:bg-gray-800/50 rounded-2xl overflow-hidden backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50"
-            >
-              <div className="relative h-64 overflow-hidden">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+        {/* Grid */}
+        <motion.div layout className="grid gap-7 lg:grid-cols-2">
+          <AnimatePresence mode="popLayout" initial={false}>
+            {visible.map((project, i) => (
+              <motion.div
+                key={project.slug}
+                layout
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: [0.21, 0.6, 0.35, 1] }}
+              >
+                <ProjectCard
+                  project={project}
+                  variant={project.featured ? "featured" : "compact"}
+                  priority={i < 2}
                 />
-                <div className="absolute inset-0 bg-black/60 transition-opacity duration-300 group-hover:opacity-30" />
-
-                <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 text-sm bg-transparent text-white rounded-lg backdrop-blur-sm border border-white/10"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-8 line-clamp-4">
-                  {project.description}
-                </p>
-
-                <div className="flex gap-4 flex-col md:flex-row">
-                  <motion.a
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    href={project.demoUrl}
-                    className="px-6 py-2.5 bg-purple-600 dark:bg-purple-500 text-white rounded-lg flex items-center gap-2 hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors shadow-lg shadow-purple-500/20"
-                  >
-                    Live Demo
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                      />
-                    </svg>
-                  </motion.a>
-
-                  <motion.a
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    href={project.githubUrl}
-                    className="px-6 py-2.5 bg-white dark:bg-gray-800 text-gray-800 dark:text-white rounded-lg flex items-center gap-2 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors shadow-lg shadow-gray-200/20 dark:shadow-gray-900/20 border border-gray-200 dark:border-gray-700"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                      />
-                    </svg>
-                    View Code
-                  </motion.a>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
       </div>
     </section>
   );

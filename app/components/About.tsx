@@ -1,118 +1,184 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import Reveal from "./ui/Reveal";
+import SectionHeading from "./ui/SectionHeading";
+import { profile } from "../data/profile";
+import { languages, softSkills } from "../data/resume";
+
+const pillars = [
+  {
+    title: "Agentic AI & RAG",
+    body: "Hybrid retrieval over vector search, BM25 and knowledge graphs, with LLM routing, grounded fact-checking and human handoff.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1M7.7 16.3l-2.1 2.1" />
+        <circle cx="12" cy="12" r="3.2" />
+      </svg>
+    ),
+  },
+  {
+    title: "Computer Vision",
+    body: "YOLOv8 detection, EfficientNet and ViT classification, Grad-CAM interpretability — trained on datasets I build and balance myself.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M2.04 12.32a1 1 0 0 1 0-.64C3.42 7.51 7.36 4.5 12 4.5s8.57 3.01 9.96 7.18a1 1 0 0 1 0 .64C20.58 16.49 16.64 19.5 12 19.5s-8.57-3.01-9.96-7.18Z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Multilingual NLP",
+    body: "Intent classification, NER and cross-lingual retrieval across Arabic, English, French and code-switched text.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.42-4.03 8-9 8a9.9 9.9 0 0 1-4.26-.95L3 20l1.4-3.72C3.51 15.04 3 13.57 3 12c0-4.42 4.03-8 9-8s9 3.58 9 8Z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Ship it, then measure it",
+    body: "FastAPI, Docker, GitHub Actions, Hugging Face Spaces — plus evaluation sets and test suites so improvement is provable, not felt.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7Z" />
+      </svg>
+    ),
+  },
+];
+
+const facts = [
+  { label: "Degree", value: "B.Sc. Computer Science & Artificial Intelligence" },
+  { label: "University", value: "Tafila Technical University · 2020 – 2025" },
+  { label: "Latest program", value: "AI.SPIRE — Applied AI & ML Systems (2026)" },
+  { label: "Based in", value: profile.location },
+  { label: "Focus", value: "Agentic AI · Computer Vision · NLP · Analytics" },
+];
 
 export default function About() {
   return (
-    <section id="about" className="relative py-20 bg-white dark:bg-black">
-      <div className="absolute bottom-0 right-0 w-full h-96 bg-gradient-to-t from-purple-100/20 dark:from-purple-900/20 via-transparent to-transparent" />
+    <section id="about" className="relative px-6 py-24 sm:px-8 lg:px-12">
+      <div className="container mx-auto max-w-7xl">
+        <SectionHeading
+          eyebrow="About me"
+          title="I don't stop at a notebook — I ship the system"
+          description="Artificial Intelligence and Data Science graduate working end to end: dataset, model, evaluation, deployment, and the numbers that prove it works."
+        />
 
-      <div className="container max-w-7xl mx-auto px-8 lg:px-12 relative z-10">
-        <div className="flex flex-col lg:flex-row items-start gap-16">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:w-1/2"
-          >
-            <div className="relative group">
-              <div className="relative rounded-lg overflow-hidden bg-white">
-                <Image
-                  src="/Images/me.jpeg"
-                  alt="Momen Hamza"
-                  width={600}
-                  height={700}
-                  className="object-cover transition duration-300 group-hover:scale-105"
-                />
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:w-1/2"
-          >
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-8">
-              About Me
-            </h2>
-
-            <div className="space-y-6 text-gray-600 dark:text-gray-300">
-              <p>
-                Hello! I&apos;m Momen Hamza, a recent graduate in Computer Science
-                and Artificial Intelligence with a strong interest in machine
-                learning, deep learning, computer vision, and data analysis.
+        <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+          {/* Narrative */}
+          <div className="space-y-6">
+            <Reveal>
+              <p className="text-lg leading-relaxed">
+                I graduated from{" "}
+                <span className="font-semibold text-violet-600 dark:text-violet-300">
+                  Tafila Technical University
+                </span>{" "}
+                in Computer Science and Artificial Intelligence, and I have spent
+                that time building systems rather than only studying them.
               </p>
-
-              <p>
-                I graduated from Tafila Technical University and built hands-on
-                experience through academic and practical projects in predictive
-                modeling, intelligent systems, and AI-powered applications.
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className="muted leading-relaxed">
+                My graduation project was a real-time assistive system for
+                visually impaired users: I built the dataset myself — annotation,
+                class balancing, augmentation — trained a 16-class YOLOv8 detector
+                on 250K images to 80% mAP@0.5, and generated spoken Arabic
+                guidance describing object, direction and distance.
               </p>
-
-              <p>
-                I enjoy solving real-world problems using Python, TensorFlow,
-                Scikit-learn, and modern AI tools. My graduation project focused
-                on developing a smart detection system for visually impaired
-                users using YOLOv8, Streamlit, and Arabic voice guidance.
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p className="muted leading-relaxed">
+                Since then I have shipped an EfficientNet-B3 MRI classifier at 95%
+                test accuracy with Grad-CAM interpretability, a multimodal emotion
+                recognition system fusing vision and speech, a multilingual
+                chatbot at 92.45% intent accuracy with cross-lingual retrieval,
+                and — most recently — a production agentic support system with
+                hybrid retrieval, 96.7% routing accuracy and a 164-test suite.
               </p>
-            </div>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <p className="muted leading-relaxed">
+                The thread through all of it: define the metric first, build the
+                evaluation set, then earn the improvement. That is how routing
+                went from 86.7% to 96.7%, escalation recall from 33% to 100%, and
+                response time down by 67%.
+              </p>
+            </Reveal>
 
-            <div className="mt-12">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white mb-6">
-                Technologies I Work With
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {[
-                  "Python",
-                  "Machine Learning",
-                  "Deep Learning",
-                  "TensorFlow",
-                  "Scikit-learn",
-                  "Computer Vision",
-                  "Data Analysis",
-                  "Natural Language Processing",
-                  "YOLOv8",
-                  "Streamlit",
-                ].map((skill) => (
-                  <motion.span
-                    key={skill}
-                    whileHover={{ scale: 1.05 }}
-                    className="px-4 py-2 bg-white dark:bg-gray-800 ring-1 ring-purple-500/20
-                    text-gray-700 dark:text-gray-300 rounded-lg text-sm hover:ring-purple-500/40
-                    shadow-sm hover:shadow transition-all duration-300"
+            <div className="grid gap-4 pt-4 sm:grid-cols-2">
+              {pillars.map((pillar, i) => (
+                <Reveal key={pillar.title} delay={0.1 + i * 0.07}>
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="glass-raised h-full p-6 transition-colors hover:border-violet-500/40"
                   >
-                    {skill}
-                  </motion.span>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mt-12">
-              {[
-                { number: "2025", label: "Graduate", color: "from-purple-600 to-indigo-600" },
-                { number: "5", label: "Projects", color: "from-blue-600 to-cyan-600" },
-                { number: "2", label: "Courses", color: "from-emerald-600 to-teal-600" },
-                { number: "AI", label: "Focus", color: "from-orange-600 to-amber-600" },
-              ].map((stat) => (
-                <motion.div
-                  key={stat.label}
-                  whileHover={{ y: -5 }}
-                  className="p-4 rounded-lg bg-white dark:bg-gray-800 ring-1 ring-gray-200/50
-                  dark:ring-gray-800/50 shadow-sm hover:shadow-md transition-all duration-300"
-                >
-                  <div className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</div>
-                </motion.div>
+                    <span className="inline-flex rounded-xl bg-violet-500/10 p-2.5 text-violet-600 ring-1 ring-violet-500/20 dark:text-violet-300">
+                      {pillar.icon}
+                    </span>
+                    <h3 className="mt-4 text-base font-semibold">
+                      {pillar.title}
+                    </h3>
+                    <p className="muted mt-2 text-sm leading-relaxed">
+                      {pillar.body}
+                    </p>
+                  </motion.div>
+                </Reveal>
               ))}
             </div>
-          </motion.div>
+          </div>
+
+          {/* Side panel */}
+          <div className="space-y-6">
+            <Reveal delay={0.1}>
+              <div className="glass-raised p-8">
+                <h3 className="text-lg font-semibold">Quick facts</h3>
+                <dl className="mt-6 space-y-5">
+                  {facts.map((fact) => (
+                    <div
+                      key={fact.label}
+                      className="border-b border-[rgb(var(--border-subtle))] pb-4 last:border-0 last:pb-0"
+                    >
+                      <dt className="text-xs font-semibold uppercase tracking-wider text-violet-600 dark:text-violet-300">
+                        {fact.label}
+                      </dt>
+                      <dd className="mt-1.5 text-sm leading-relaxed">
+                        {fact.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.16}>
+              <div className="glass-raised p-8">
+                <h3 className="text-lg font-semibold">Languages</h3>
+                <ul className="mt-4 space-y-3">
+                  {languages.map((lang) => (
+                    <li
+                      key={lang.name}
+                      className="flex items-baseline justify-between gap-4 text-sm"
+                    >
+                      <span className="font-medium">{lang.name}</span>
+                      <span className="muted text-right text-xs">
+                        {lang.level}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <h3 className="mt-8 text-lg font-semibold">Beyond the code</h3>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {softSkills.map((skill) => (
+                    <span key={skill} className="chip">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </div>
     </section>

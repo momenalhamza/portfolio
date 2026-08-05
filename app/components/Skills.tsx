@@ -1,156 +1,154 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Reveal from "./ui/Reveal";
+import SectionHeading from "./ui/SectionHeading";
+import { skillGroups } from "../data/resume";
 
-const skillCategories = [
-  {
-    title: "Machine Learning & AI",
-    skills: [
-      { name: "Machine Learning", level: 90 },
-      { name: "Deep Learning", level: 85 },
-      { name: "Neural Networks", level: 85 },
-      { name: "TensorFlow", level: 80 },
-    ],
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M9.75 3v18m4.5-18v18M3 9.75h18M3 14.25h18"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Data Science & Analysis",
-    skills: [
-      { name: "Data Analysis", level: 88 },
-      { name: "Predictive Modeling", level: 84 },
-      { name: "Scikit-learn", level: 85 },
-      { name: "Problem Solving", level: 90 },
-    ],
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M11 3v18m-4-4h8m-10 4h12a2 2 0 002-2V7.828a2 2 0 00-.586-1.414l-2.828-2.828A2 2 0 0014.172 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-        />
-      </svg>
-    ),
-  },
-  {
-    title: "Computer Vision & Development",
-    skills: [
-      { name: "Computer Vision", level: 85 },
-      { name: "YOLOv8", level: 80 },
-      { name: "Python", level: 92 },
-      { name: "Streamlit", level: 78 },
-    ],
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14m-6 2h4a2 2 0 002-2V10a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm-4 0h.01M5 10h.01"
-        />
-      </svg>
-    ),
-  },
+/** Numbers taken straight from shipped projects — each one is defensible. */
+const proof = [
+  { value: "96.7%", label: "Agent routing accuracy", context: "Meridian Retail" },
+  { value: "95%", label: "MRI test accuracy", context: "Brain Tumor Classification" },
+  { value: "92.45%", label: "Intent accuracy", context: "Multilingual Chatbot" },
+  { value: "80%", label: "mAP@0.5 · 16 classes", context: "Smart Detection (YOLOv8)" },
+  { value: "76.86%", label: "Multimodal fusion accuracy", context: "Emotion Recognition" },
+  { value: "88%", label: "Risk classification accuracy", context: "Heart Disease Prediction" },
+];
+
+const groupIcons = [
+  // Languages & Databases
+  <svg key="db" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+    <ellipse cx="12" cy="6" rx="8" ry="3" />
+    <path strokeLinecap="round" d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+  </svg>,
+  // ML & Frameworks
+  <svg key="ml" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+    <circle cx="5" cy="6" r="2" />
+    <circle cx="5" cy="18" r="2" />
+    <circle cx="12" cy="12" r="2" />
+    <circle cx="19" cy="7" r="2" />
+    <circle cx="19" cy="17" r="2" />
+    <path strokeLinecap="round" d="M7 6.8 10.3 11M7 17.2 10.3 13M13.8 11 17.2 7.8M13.8 13l3.4 3.2" />
+  </svg>,
+  // CV & NLP
+  <svg key="cv" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+    <rect x="3" y="4" width="18" height="14" rx="2" />
+    <path strokeLinecap="round" d="M3 9h18M8 4v5M7 13h4m2 0h4" />
+  </svg>,
+  // Retrieval, Data & BI
+  <svg key="bi" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7 16v-4m5 4V8m5 8v-6" />
+  </svg>,
+  // MLOps & Tools
+  <svg key="ops" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} className="h-5 w-5">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M10.3 4.3a4 4 0 0 0 5.4 5.4l4 4a2 2 0 1 1-2.8 2.8l-4-4a4 4 0 0 1-5.4-5.4l-1.9-1.9a2 2 0 0 1 2.8-2.8l1.9 1.9Z" />
+  </svg>,
+];
+
+const marqueeStack = [
+  "Python",
+  "PyTorch",
+  "TensorFlow",
+  "scikit-learn",
+  "Transformers",
+  "YOLOv8",
+  "EfficientNet",
+  "Wav2Vec2",
+  "FAISS",
+  "Weaviate",
+  "Neo4j",
+  "Groq",
+  "FastAPI",
+  "Docker",
+  "Next.js",
+  "GitHub Actions",
+  "Streamlit",
+  "Gradio",
+  "SQL",
+  "PostgreSQL",
+  "Tableau",
+  "Looker Studio",
+  "spaCy",
+  "OpenCV",
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative py-20 bg-white dark:bg-black">
-      <div className="absolute top-0 right-0 w-full h-96 bg-gradient-to-b from-purple-100/20 dark:from-purple-900/20 via-transparent to-transparent" />
+    <section id="skills" className="relative px-6 py-24 sm:px-8 lg:px-12">
+      <div className="container mx-auto max-w-7xl">
+        <SectionHeading
+          eyebrow="Capabilities"
+          title="A stack that covers the whole path to production"
+          description="From SQL and statistics through deep learning architectures to retrieval, deployment and evaluation."
+        />
 
-      <div className="container max-w-7xl mx-auto px-8 lg:px-12 relative z-10">
-        <div className="max-w-3xl mx-auto text-center mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl lg:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400"
-          >
-            Technical Skills
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-4 text-lg text-gray-600 dark:text-gray-300"
-          >
-            My technical background in artificial intelligence, data science,
-            and modern development tools.
-          </motion.p>
+        {/* Proof band */}
+        <div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {proof.map((item, i) => (
+            <Reveal key={item.label} delay={i * 0.06}>
+              <div className="glass-raised group relative overflow-hidden p-6">
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-500/60 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                <p className="font-display text-3xl font-bold text-gradient">
+                  {item.value}
+                </p>
+                <p className="mt-2 text-sm font-medium">{item.label}</p>
+                <p className="muted mt-1 font-mono text-[11px] uppercase tracking-wider">
+                  {item.context}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-3">
-          {skillCategories.map((category, categoryIndex) => (
-            <motion.div
-              key={category.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: categoryIndex * 0.2 }}
-              className="group relative p-8 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-200/50 dark:border-gray-700/50 shadow-xl dark:shadow-gray-900/10 hover:border-purple-500/50 dark:hover:border-purple-500/50 transition-all duration-300"
+        {/* Capability matrix */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          {skillGroups.map((group, i) => (
+            <Reveal
+              key={group.title}
+              delay={i * 0.07}
+              className={i === skillGroups.length - 1 ? "lg:col-span-2" : ""}
             >
-              <div className="relative">
-                <div className="flex items-center gap-4 mb-8">
-                  <motion.span
-                    whileHover={{ scale: 1.1 }}
-                    className="p-3 bg-purple-500/10 dark:bg-purple-500/20 rounded-xl text-purple-600 dark:text-purple-400 ring-1 ring-purple-500/20 dark:ring-purple-500/30"
-                  >
-                    {category.icon}
-                  </motion.span>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    {category.title}
-                  </h3>
+              <motion.div
+                whileHover={{ y: -3 }}
+                className="glass-raised h-full p-7 transition-colors hover:border-violet-500/40"
+              >
+                <div className="flex items-start gap-4">
+                  <span className="inline-flex shrink-0 rounded-xl bg-violet-500/10 p-3 text-violet-600 ring-1 ring-violet-500/20 dark:text-violet-300">
+                    {groupIcons[i]}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-semibold">{group.title}</h3>
+                    <p className="muted mt-1 text-sm">{group.blurb}</p>
+                  </div>
                 </div>
 
-                <div className="space-y-6">
-                  {category.skills.map((skill, skillIndex) => (
-                    <motion.div
-                      key={skill.name}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{
-                        delay: categoryIndex * 0.2 + skillIndex * 0.1,
-                      }}
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <motion.span
+                      key={skill}
+                      whileHover={{ y: -2 }}
+                      className="chip transition-colors hover:border-violet-500/40 hover:text-violet-600 dark:hover:text-violet-300"
                     >
-                      <div className="flex justify-between mb-2">
-                        <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
-                          {skill.name}
-                        </span>
-                        <span className="text-sm font-medium text-purple-600 dark:text-purple-400">
-                          {skill.level}%
-                        </span>
-                      </div>
-                      <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          viewport={{ once: true }}
-                          transition={{
-                            duration: 1.5,
-                            ease: [0.34, 1.56, 0.64, 1],
-                            delay: categoryIndex * 0.2 + skillIndex * 0.1,
-                          }}
-                          className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full relative"
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent animate-shimmer" />
-                        </motion.div>
-                      </div>
-                    </motion.div>
+                      {skill}
+                    </motion.span>
                   ))}
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      {/* Tech marquee */}
+      <div className="relative mt-20 overflow-hidden mask-fade-x">
+        <div className="flex w-max animate-marquee gap-3">
+          {[...marqueeStack, ...marqueeStack].map((tech, i) => (
+            <span
+              key={`${tech}-${i}`}
+              className="chip whitespace-nowrap px-4 py-2 text-sm"
+            >
+              {tech}
+            </span>
           ))}
         </div>
       </div>

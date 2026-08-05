@@ -5,34 +5,222 @@
 @layer base {
   :root {
     --color-background: 255 255 255;
-    --color-foreground: 0 0 0;
+    --color-foreground: 10 10 15;
+
+    --surface: 255 255 255;
+    --surface-raised: 250 250 252;
+    --border-subtle: 15 15 25 / 0.08;
+    --muted: 82 82 95;
+
+    --accent: 124 58 237; /* violet-600 */
+    --accent-soft: 139 92 246; /* violet-500 */
+    --accent-alt: 79 70 229; /* indigo-600 */
   }
 
   .dark {
-    --color-background: 0 0 0;
-    --color-foreground: 255 255 255;
+    --color-background: 6 6 10;
+    --color-foreground: 244 244 248;
+
+    --surface: 14 14 20;
+    --surface-raised: 20 20 28;
+    --border-subtle: 255 255 255 / 0.08;
+    --muted: 156 156 170;
+
+    --accent: 167 139 250; /* violet-400 */
+    --accent-soft: 139 92 246;
+    --accent-alt: 129 140 248;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
   }
 
   body {
-    @apply bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))] transition-colors duration-300;
+    @apply bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))];
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
   }
-}
-*{
-  ::-webkit-scrollbar{
-    width: 2px;
+
+  ::selection {
+    background-color: rgb(var(--accent) / 0.25);
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
-    background: #0a0a10;
+    background: transparent;
   }
-  ::-webkit-scrollbar-thumb{
-   background-color: #8000ff;
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--accent) / 0.45);
+    border-radius: 999px;
   }
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--accent) / 0.7);
+  }
 }
 
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+@layer components {
+  /* Frosted panel used across cards, badges and sections */
+  .glass {
+    @apply relative rounded-2xl border border-[rgb(var(--border-subtle))]
+      bg-[rgb(var(--surface))]/70 backdrop-blur-xl;
+  }
+
+  .glass-raised {
+    @apply glass shadow-[0_1px_2px_rgba(10,10,20,0.04),0_12px_40px_-12px_rgba(10,10,20,0.12)]
+      dark:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.9)];
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-[rgb(var(--border-subtle))]
+      bg-[rgb(var(--surface-raised))]/80 px-3 py-1 text-xs font-medium
+      text-[rgb(var(--muted))] backdrop-blur;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-violet-600 via-violet-500 to-indigo-500
+      bg-clip-text text-transparent dark:from-violet-300 dark:via-violet-400 dark:to-indigo-300;
+  }
+
+  .muted {
+    color: rgb(var(--muted));
+  }
+
+  /* Section eyebrow label with a leading rule */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em];
+    color: rgb(var(--accent));
+  }
+  .eyebrow::before {
+    content: "";
+    @apply h-px w-8;
+    background-color: rgb(var(--accent) / 0.6);
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3.5
+      text-sm font-semibold transition-all duration-300 will-change-transform;
+  }
+
+  .btn-primary {
+    @apply btn relative overflow-hidden text-white
+      bg-gradient-to-r from-violet-600 to-indigo-600
+      shadow-[0_10px_30px_-10px_rgb(124_58_237/0.6)]
+      hover:shadow-[0_16px_40px_-12px_rgb(124_58_237/0.7)];
+  }
+
+  .btn-ghost {
+    @apply btn border border-[rgb(var(--border-subtle))] bg-[rgb(var(--surface))]/60
+      text-[rgb(var(--color-foreground))] backdrop-blur
+      hover:border-violet-500/50 hover:bg-violet-500/5;
+  }
+
+  /* Gradient hairline that separates major sections */
+  .rule {
+    @apply h-px w-full border-0 bg-gradient-to-r from-transparent
+      via-[rgb(var(--border-subtle))] to-transparent;
+  }
+}
+
+@layer utilities {
+  .grid-bg {
+    background-image: linear-gradient(
+        to right,
+        rgb(var(--accent) / 0.07) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(var(--accent) / 0.07) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      #000 40%,
+      transparent 100%
+    );
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      #000 40%,
+      transparent 100%
+    );
+  }
+
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .mask-fade-x {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* The resume page is meant to be printable / saveable as PDF */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  .glass,
+  .glass-raised {
+    background: #fff !important;
+    border-color: #ddd !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
 }
